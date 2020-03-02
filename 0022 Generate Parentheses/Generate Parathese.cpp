@@ -1,22 +1,21 @@
 class Solution {
-public
-    vectorstring generateParenthesis(int n) {
+public:
+    vector<string> generateParenthesis(int n) {
         string s;
-        vectorstring v;
+        vector<string> v;
         
-        for(int i = 0; i  n; i++) s = s + ();
+        for(int i = 0; i < n; i++) s = s + "()";
         
         backTrack(s,v,0);
-        setstring sets(v.begin(),v.end());
-        v.assign(sets.begin(),sets.end());
         
         return v;
     }
     
-    void backTrack(string& s, vectorstring& v, int t){
-        if(t = s.size()){
-            stackchar stk;
-            for(int i = 0; i  s.size(); i++){
+    void backTrack(string& s, vector<string>& v, int t){
+        
+        if(t >= s.size()){
+            stack<char> stk;
+            for(int i = 0; i < s.size(); i++){
                 if(!stk.empty()){
                     if(stk.top() = '(' && s[i] == ')'){
                         stk.pop();
@@ -34,9 +33,16 @@ public
             return;
         }
         
-        for(int i = t; i  s.size(); i++){
+        set<char> sets;
+        
+        for(int i = t; i < s.size(); i++){
             swap(s[t],s[i]);
-            backTrack(s,v,t+1);
+            
+            if(sets.find(s[t]) == sets.end()){
+                sets.insert(s[t]);
+                backTrack(s,v,t+1);
+            }
+            
             swap(s[t],s[i]);
         }
         
